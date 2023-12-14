@@ -52,7 +52,6 @@ find_package(OpenMP REQUIRED)
 add_executable(Raytracing src/main.cpp src/renderer/raytracer/raytracer_renderer.cpp ${SOURCE})
 target_compile_definitions(Raytracing PUBLIC RAYTRACING)
 target_include_directories(Raytracing PRIVATE ${INCLUDE})
-target_link_libraries(Raytracing PRIVATE OpenMP::OpenMP_CXX)
 set_property(TARGET Raytracing PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
 add_executable(DirectX12 WIN32 src/win_main.cpp src/renderer/dx12/dx12_renderer.cpp src/utils/window.cpp ${SOURCE})
