@@ -6,7 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project("Computer graphics in Game development")
 
 if(APPLE)
+        set(LDFLAGS "-L/opt/homebrew/opt/libomp/lib")
+        set(CPPFLAGS "-I/opt/homebrew/opt/libomp/include")
         if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+
                 set(OpenMP_C "${CMAKE_C_COMPILER}" CACHE STRING "" FORCE)
                 set(OpenMP_C_FLAGS "-fopenmp=libomp -Wno-unused-command-line-argument" CACHE STRING "" FORCE)
                 set(OpenMP_C_LIB_NAMES "libomp" "libgomp" "libiomp5" CACHE STRING "" FORCE)
