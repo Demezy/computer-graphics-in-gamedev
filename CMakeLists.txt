@@ -1,30 +1,22 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project("Computer graphics in Game development")
 
 if(APPLE)
-        set(LDFLAGS "-L/opt/homebrew/opt/libomp/lib")
-        set(CPPFLAGS "-I/opt/homebrew/opt/libomp/include")
-        if(CMAKE_C_COMPILER_ID MATCHES "Clang")
+        set(CMAKE_CXX_COMPILER "/opt/homebrew/opt/llvm/bin/clang++")
+        set(CMAKE_C_COMPILER "/opt/homebrew/opt/llvm/bin/clang")
+        set(CXX_STANDARD_LIBRARIES "/opt/homebrew/opt/llvm/include")
+        set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES, "/opt/homebrew/opt/llvm/include/c++/v1/")
 
-                set(OpenMP_C "${CMAKE_C_COMPILER}" CACHE STRING "" FORCE)
-                set(OpenMP_C_FLAGS "-fopenmp=libomp -Wno-unused-command-line-argument" CACHE STRING "" FORCE)
-                set(OpenMP_C_LIB_NAMES "libomp" "libgomp" "libiomp5" CACHE STRING "" FORCE)
-                set(OpenMP_libomp_LIBRARY ${OpenMP_C_LIB_NAMES} CACHE STRING "" FORCE)
-                set(OpenMP_libgomp_LIBRARY ${OpenMP_C_LIB_NAMES} CACHE STRING "" FORCE)
-                set(OpenMP_libiomp5_LIBRARY ${OpenMP_C_LIB_NAMES} CACHE STRING "" FORCE)
-        endif()
-        if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-                set(OpenMP_CXX "${CMAKE_CXX_COMPILER}" CACHE STRING "" FORCE)
-                set(OpenMP_CXX_FLAGS "-fopenmp=libomp -Wno-unused-command-line-argument" CACHE STRING "" FORCE)
-                set(OpenMP_CXX_LIB_NAMES "libomp" "libgomp" "libiomp5" CACHE STRING "" FORCE)
-                set(OpenMP_libomp_LIBRARY ${OpenMP_CXX_LIB_NAMES} CACHE STRING "" FORCE)
-                set(OpenMP_libgomp_LIBRARY ${OpenMP_CXX_LIB_NAMES} CACHE STRING "" FORCE)
-                set(OpenMP_libiomp5_LIBRARY ${OpenMP_CXX_LIB_NAMES} CACHE STRING "" FORCE)
-        endif()
+        set(OPENMP_LIBRARIES "/opt/homebrew/opt/llvm/lib")
+        set(OPENMP_INCLUDES "/opt/homebrew/opt/llvm/include")
+
+        set(OpenMP_C "${CMAKE_C_COMPILER}")
+        set(OpenMP_C_FLAGS "-fopenmp=libomp -Wno-unused-command-line-argument")
+        set(OpenMP_C_LIB_NAMES "libomp" "libgomp" "libiomp5")
 endif()
 
 set(INCLUDE
@@ -64,3 +56,4 @@ target_link_libraries(DirectX12 d3d12.lib dxgi.lib d3dcompiler.lib dxguid.lib)
 # Copy shader as a source to the binary directory
 configure_file(shaders/shaders.hlsl ${CMAKE_CURRENT_BINARY_DIR}/shaders.hlsl COPYONLY)
 set_property(TARGET DirectX12 PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+set_property(TARGET DirectX12 PROPERTY CXX_STANDARD 20)
